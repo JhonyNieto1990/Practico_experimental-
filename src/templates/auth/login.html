@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Crunch House{% endblock %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+<style>
+    /* Estilo extra para que el logo se vea circular y profesional */
+    .img-logo {
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        object-fit: cover;
+    }
+    .form-signin {
+        max-width: 400px;
+        padding: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<main class="form-signin w-100 m-auto text-center mt-5">
+    {# Mensajes de alerta #}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="card shadow-lg border-0 p-4 rounded-4">
+        <form action="{{ url_for('login') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <img class="mb-4 img-logo" src="{{ url_for('static', filename='img/crunch_house_logo.png') }}" alt="Crunch House Logo" width="120" height="120">
+            
+            <h1 class="h3 mb-4 fw-bold text-primary">Acceso al Sistema</h1>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-3" id="username" name="username" placeholder="Usuario" required autofocus>
+                <label for="username"><i class="fas fa-user me-2"></i>Usuario</label>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control rounded-3" id="password" name="password" placeholder="Contraseña" required>
+                <label for="password"><i class="fas fa-lock me-2"></i>Contraseña</label>
+            </div>
+
+            <button class="w-100 btn btn-lg btn-primary rounded-pill shadow-sm py-3 mt-3" type="submit">
+                <i class="fas fa-sign-in-alt me-2"></i>Ingresar
+            </button>
+            
+            <p class="mt-5 mb-3 text-muted small">&copy; 2026 Crunch House | Gestión de Snacks</p>
+        </form>
+    </div>
+</main>
+{% endblock %}
